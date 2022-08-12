@@ -1,4 +1,9 @@
+% This function yields an n*n binary matrix
+% Its enteries represent colours of a chessboard (White square = 1, Black square = 0)
+% E.g: Chess(5) = [1 0 1 0 1; 0 1 0 1 0; 1 0 1 0 1; 0 1 0 1 0; 1 0 1 0 1]
+
 function [ Z ] = Chess(n)
+
 Z = zeros(n);
 
 for i = 1:n
@@ -20,6 +25,5 @@ for i = 1:n
         end
     end
 end
-disp(Z)
-end
 
+end

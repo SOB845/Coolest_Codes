@@ -24,5 +24,11 @@ for i = 1:S
         end
     end
 end
-plot(graph(Adj_Matrix))
+
+G = graph(Adj_Matrix);
+L = full(laplacian(G)); % Laplacian matrix in its full (non-sparse) form
+assignin('base','G',G); % Saves the graph to workspace
+assignin('base','L',L); 
+plot(G)
+
 end

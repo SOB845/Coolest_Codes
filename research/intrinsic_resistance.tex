@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\begin{document}
+	\title{\textbf{Intrinsic Node Resistance and its application in depreciatory adversarial attacks}}
+	\author{\emph{Dr.Ghanbar Azarnia, Sobhan Haghi}}
+	\maketitle
+	
+	\begin{abstract}
+		Weighted edges are vastly utilized in the analysis of path-finding and optimization algorithms, yet when it comes to network robustness, little attention is given to the properties of vertices. We will introduce a novel network model that assigns an intrinsic resistance parameter ($\rho$) to each node which will aid us in measuring overall network resistance. Later its effectiveness in defense against various types of adversarial attacks will be simulated.
+	\end{abstract}
+	
+	\section{Introduction}
+	Ever since Leonhard Euler's innovative solution to the K\"{o}nigsberg problem, graph theorists sought to apply this newborn branch of mathematics to other natural sciences. Due to their flexible and high-level abstract nature, graphs proved to be effective in simulation of numerous phenomena in which a set of elements (labeled as vertices or nodes in graph theory nomenclature) are related by a predefined property\cite{tucker2012applied}. Some prominent disciplines that depend upon graph theoretic simulations and illustrations are computer science, physical chemistry\cite{klein1993m}, biology\cite{mason2007graph}, set theory, propositional logic, electrical circuits, finite-elements method, sociology, subway routes, oil pipelines etc. In this paper, we will discuss network security from a graph theoretic point-of-view. Specifically, we will analyze how introduction of internal resistances to the nodes, as an alternative to edge weights, affects their resilience against adversarial attacks. Later, we will see how these attacks are conducted on simple networks while we introduce a new group of attacker systems we call as Depreciatory Adversarial Attackers.
+	\subparagraph{keywords}\textit{Graph theory, network security, network robustness, intrinsic node resistance, depreciatory adversarial attacks, attacker systems}
+	
+	\subsection{previous methods in robustness analysis}
+	There are two major schools of robustness analysis i.e Classical Graph theory and Spectral Graph theory. Former group is mainly based on topological structure of a network. For example, the Vertex Connectivity $K_v$ is defined as the minimal number of vertices to be removed such that the graph becomes disconnected. A similar Edge Connectivity $K_e$ also exists. It is said the higher $K_v$ (or $K_e$) higher the robustness gets \cite{ellens2013graph}. Another classical robustness measure is the Clustering coefficient \cite{watts1998collective} C such that
+	\begin{equation}
+		C = \frac{1}{n} \sum_{i\in V;\delta_i>1}\frac{2}{\delta_i(\delta_i -1)}e_i
+	\end{equation}
+	where $e_i$ is the number of edges among neighbors of $i$ and $\delta_i$ degree of node $i$. Again it is trivial to consider as C gets larger, the network is more robust.
+	Klein and Randi\'{c} \cite{klein1993m} have taken an electrical approach. For a pair of nodes such as (i,j), hypothetical 1 $\Omega$ resistances are wired in place of edges and a hypothetical battery parallel to (i,j). Hence an effective resistance between (i,j) can be obtained from equivalent resistance circuits.
+	
+	\subsection{Spectral theory}
+	Spectral graph analysis utilizes various linear algebraic tools	to quantify characteristics of a particular graph. One can define a graph in the realm of linear algebra as its Adjacency matrix ($A$). Alongside the degree matrix ($D$), another highly functional matrix known as the Laplacian($L$) is constructed ($L=D-A$). Many ideas in the spectral analysis comes from facts already known in electrical circuit theory. Three of the most common methods are the number of Spanning trees, algebraic connectivity (the second smallest eigenvalue of the Laplacian matrix) and the Effective Graph Resistance \cite{ellens2013graph}.
+	
+	\subsection{Effective Graph Resistance}
+	Assuming each edge of the network corresponds to a 1 $\Omega$ resistor, Effective Graph Resistance (also known as the Kirchhoff Index), is defined as the sum of equivalent resistances over all pairs of nodes. It is expressed as
+	$R = n \sum_{i=2}^{n}(\frac{1}{\lambda_{i}})$, $n = |V|$ \cite{klein1993m}\cite{yamashita2021effective}. Note that $\bigcup_{i=1}^{n} \{\lambda_i\}$ forms the set of all real eigenvalues of the Laplacian matrix. The lower bound of summation must indeed begin from $i=2$ since $\lambda_1 = 0$.
+	
+	\section{Effective Node Resistance (ENR)}
+	For any pair of vertices such as (i,j), W.Ellens \cite{ellens2013graph} has shown that an effective resistance can be defined as:
+	\begin{equation}
+		R_{ij} = (e_i-e_j)^T  L^{-1} (e_i-e_j) = L_{ii}^{\dag} -2L_{ij}^{\dag} + L_{jj}^{\dag}= R_{ji}
+	\end{equation}
+	Where $e_i$ is the basis vector. Since the Laplacian has one 0 eigenvalue at $\lambda_1$, taking its inverse is a mathematical impossibility. This error can be circumvented by replacing $L^{-1}$ with the Moore-Penrose inverse operation $L^\dag$. From the relation above we can easily derive an equation for total effective node resistance of $i_{th}$ vertex as follows $R_i = \sum_{j\in V}R_{ij}$.
+	
+	\subsection{ENR given random Intrinsic Resistances}
+	Suppose we assign each node in the network a random parameter $\rho$ as the Intrinsic Resistance of a particular node and $\rho \sim U[0,1]$. A new formula for the ENR can be written as:
+	\begin{equation}
+		R_{ij} = (\rho_i e_i - \rho_j e_j)^T L^{\dag} (\rho_i e_i - \rho_j e_j)
+	\end{equation}
+	The reason behind the introduction of Internal Resistances is to accurately simulate real-world relationships in which quantity or quality of agent-to-agent connections per se (i.e the edges between these agents) is of little to no importance. As an example, suppose we have a network of interconnected computers scattered all around the globe. It is foolish to consider that the distances between these computers contribute anything to their immunity against malicious attacks. The decisive factor over the security of this network is tolerance of each computer towards various forms of adversarial attacks. Another application for this method can be found in criminology and riot-control where in order to apprehend the leaders of a criminal organization one needs to first identify, apprehend and interrogate fragile members of the organization. Further explanation and examples can be given whence we have completed our discussion on attacker systems.
+	\subsection{Defense scheme based on Internal Resistances}
+	Here we build a defense scheme against adversarial attacks based on these preliminaries:
+	
+	\begin{enumerate}
+		\item {We only deal with centralized, simple, connected, and undirected networks.}
+		Centrality-wise, we will take an unorthodox approach. We say a network is centralized if it has at least one node whose internal resistance is approximately 1. These are to be labeled as Leaders (denoted $\rho_L$) whose elimination would results in total failure of the network.
+		\item {Removal of a node results in removal of its neighbors regardless of their intrinsic resistances}
+		\item {The network fails to defend itself if any of the leaders are removed}
+		\item {Our results apply to both scale-free and non-scale networks}
+	\end{enumerate}
+	
+	
+	\pagebreak
+	\bibliographystyle{elsarticle-num}
+	\bibliography{NodeRef}
+\end{document}

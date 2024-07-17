@@ -52,7 +52,10 @@
 		\item {Our results apply to both scale-free and non-scale networks}
 	\end{enumerate}
 	
-	
+	\subsection{Depreciatory Attacker Systems}
+	An attacker system is simply any algorithm or protocol used to eliminate one node at a time. The most well-known node elimination method is random removal. The assumption of no restrictions on the operation of such systems may prove them incompetent for real-world applications where internal node resistances play essential role. Thus we need fundamental changes on our definition of attacker systems. A Depreciatory Attacker is a system possessing two parameters - namely the fuel parameter $F$ and the cost function $K$- denoted from this moment onward as $\aleph(F_{t-1},K(\rho,F_{t-1}))$. We initially choose $F$ to be a large number ($>100$) and compute $K$ as a function of $F_{t-1}$ (remaining fuel from the previous attempt) and $\rho_i$. The output of the cost function indicates how many Fuel "points" are left after the removal attempt. As an example, $K(\rho,F)$ can be chosen as a linear function s.t. $K(\rho_i,F_{t-1})=F_{t-1} - \rho_i F_{t-1} = F_{t}$. 
+	The probability that the attacker successfully removes a node at a particular epoch follows the relation $P_s \propto K, \rho_i^{-1}$
+ 
 	\pagebreak
 	\bibliographystyle{elsarticle-num}
 	\bibliography{NodeRef}

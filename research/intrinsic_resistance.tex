@@ -1,5 +1,9 @@
 \documentclass{article}
+
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption,subcaption}
+
 \date{\vspace{-4ex}}
 
 \begin{document}
@@ -10,23 +14,38 @@
 	\large{Engineering Faculty of Khoy, Urmia University of Technology}\\
 	
 	\begin{abstract}
+		\centering
 		Weighted graphs are vastly utilized in the analysis of path-finding and optimization algorithms, yet when it comes to the network robustness, little attention is given to the properties of vertices. In this paper, we shall introduce a novel network model that assigns an intrinsic resistance parameter ($\rho$) to each node which will aid us in measuring overall network resistance. We will also provide formal definitions on attacker systems, specifically a generalization of these systems we call as the Depreciatory Attacker Systems. Later, the effectiveness of our proposed model in defense against various types of adversarial attacks will be analyzed through computer assisted simulations.
 	\end{abstract}
 	
 	\subparagraph{keywords}\textit{network security, network robustness, intrinsic node resistance, depreciatory adversarial attacks, attacker systems, graph theory}
 	
 	\section{Introduction}
-	Ever since Leonhard Euler's innovative solution to the K\"{o}nigsberg Bridges problem, graph theorists sought to apply this newborn branch of mathematics to other natural sciences. Due to their flexible and high-level abstract nature, graphs proved to be effective in simulation of numerous phenomena in which a set of elements (labeled as vertices or nodes in graph theory nomenclature) are related by a predefined property\cite{tucker2012applied}. A graph $G$ is generally represented as $G(V,E)$ where $V$ and $E$ are, respectively, the set of all vertices and the set of ordered pairs of some vertices called edges. Some prominent disciplines that depend upon graph theoretic simulations and illustrations are computer science, physical chemistry\cite{klein1993m}, biology\cite{mason2007graph}, set theory, propositional logic, electrical circuits, finite-elements method, sociology, subway routes, traffic routing, oil pipelines etc. In this paper, we will discuss network security from a graph theoretic point of view. Weighted graphs are vastly utilized in the analysis of path-finding and optimization algorithms, yet when it comes to network robustness, little attention is given to the properties of vertices. Here, we shall introduce a novel network model that assigns an intrinsic resistance parameter ($\rho$) to each node which will aid us in measuring overall network resistance. We will analyze how introduction of the internal resistances, as an alternative to edge resistances, affects their resilience against adversarial attacks. Later, we will also provide formal definitions on attacker systems, specifically a generalization of these systems we call as the Depreciatory Attacker Systems and discuss these attacks are conducted on simple undirected networks.
+	Ever since Leonhard Euler's innovative solution to the K\"{o}nigsberg Bridges problem, graph theorists sought to apply this newborn branch of mathematics to other natural sciences. Due to their flexible and high-level abstract nature, graphs proved to be effective in simulation of numerous phenomena in which a set of elements (labeled as vertices or nodes in graph theory nomenclature) are related by a predefined property\cite{tucker2012applied}. A graph $G$ is generally represented as $G(V,E)$ where $V$ and $E$ are, respectively, the set of all vertices and the set of ordered pairs of some vertices called edges. Some prominent disciplines that depend upon graph theoretic simulations and illustrations are computer science, physical chemistry\cite{klein1993m}, biology\cite{mason2007graph}\cite{knisley2014vertex}, set theory, propositional logic, electrical circuits, finite-elements method, sociology, subway routes and traffic routing \cite{guze4805898continuous}, oil pipelines etc. In this paper, we will discuss network security from a graph theoretic point of view. Weighted graphs are vastly utilized in the analysis of path-finding and optimization algorithms, yet when it comes to network robustness, little attention is given to the properties of vertices. Here, we shall introduce a novel network model that assigns an intrinsic resistance parameter ($\rho$) to each node which will aid us in measuring overall network resistance. We will analyze how introduction of the internal resistances, as an alternative to edge resistances, affects their resilience against adversarial attacks. Later, we will also provide formal definitions on attacker systems, specifically a generalization of these systems we call as the Depreciatory Attacker Systems and discuss these attacks are conducted on simple undirected networks.
 	
 	
 	\section{Preliminaries}
 	There are two major schools of robustness analysis i.e Classical Graph theory and Spectral Graph theory. The former group is mainly based on the topological structure of a network. For example, the Vertex Connectivity $K_v$ is defined as the minimal number of vertices to be removed such that the graph becomes disconnected. A similar Edge Connectivity $K_e$ also exists. It is said the higher $K_v$ (or $K_e$) higher the robustness gets \cite{ellens2013graph}. Another classical robustness measure is the Clustering coefficient \cite{watts1998collective} C such that
-	\begin{equation}
+	\begin{equation*}
 		C = \frac{1}{n} \sum_{i\in V;\delta_i>1}\frac{2}{\delta_i(\delta_i -1)}e_i
-	\end{equation}
+	\end{equation*}
 	where $e_i$ is the number of edges among neighbors of $i$ and $\delta_i$ degree of node $i$. Again it is trivial to consider as C gets larger, the network is more robust.
 	Klein and Randi\'{c} \cite{klein1993m} have taken an electrical approach. For a pair of nodes such as (i,j), hypothetical 1 $\Omega$ resistances are wired in place of edges and a hypothetical battery parallel to (i,j). Hence an effective resistance between (i,j) can be obtained from equivalent resistance circuits.
-	The spectral graph analysis utilizes various linear algebraic tools to quantify the characteristics of a particular graph. One may define a graph in the realm of linear algebra as its Adjacency matrix ($A$). Alongside the degree matrix ($D$), another highly functional matrix known as the Laplacian ($L$) is constructed by using aforementioned matrices: $L=D-A$. Many ideas in spectral analysis have come from facts already known in electrical circuit theory. Three of the most common methods are the number of Spanning trees, algebraic connectivity (the second smallest eigenvalue of the Laplacian matrix) and the Effective Graph Resistance \cite{ellens2013graph}. The latter method is of special importance to our research for it lays the foundations of later ideas we have used in our model. 
+	The spectral graph analysis utilizes various linear algebraic tools to quantify the characteristics of a particular graph. It seeks to relate the eigenvectors and eigenvalues of matrices corresponding to a Graph to the combinatorial properties of the graph. One may define a graph in the realm of linear algebra as its Adjacency matrix ($A$). Alongside the degree matrix ($D$),
+	\begin{equation*}
+		A_{i,j} = \begin{cases}
+			1	& i\sim j \\
+			0	& o.w. 
+		\end{cases}
+	\end{equation*}
+	
+	\begin{equation*}
+		D_{i,j} = \begin{cases}
+			\delta(v_i) & i=j \\
+			0 & o.w.
+		\end{cases}
+	\end{equation*}
+	Another highly functional matrix derived from these two matrices is the Laplacian ($L$) matrix constructed by: $L=D-A$. Many ideas in spectral analysis have come from facts already known in electrical circuit theory. Three of the most common methods are the number of Spanning trees, algebraic connectivity (the second smallest eigenvalue of the Laplacian matrix) and the Effective Graph Resistance \cite{ellens2013graph}. The latter method is of special importance to our research for it lays the foundations of later ideas we have used in our model. 
 	Assuming each edge of the network corresponds to a 1$\Omega$ resistor, the Effective Graph Resistance (also known as the Kirchhoff Index), is defined as the sum of equivalent resistances over all pairs of nodes. It is expressed as
 	$R = n \sum_{i=2}^{n}(\frac{1}{\lambda_{i}})$, where $n = |V|$ is the number of vertices in the network\cite{klein1993m}\cite{yamashita2021effective}. Note that $\bigcup_{i=1}^{n} \{\lambda_i\}$ forms the set of all real eigenvalues of the Laplacian matrix. The lower bound of summation must indeed begin from $i=2$ since $\lambda_1 = 0$.
 	
@@ -39,7 +58,7 @@
 	all pairs of vertices and is an attribute of the whole network whereas the ENR is uniquely calculated for each node.
 	
 	\subsection{ENR given random Intrinsic Resistances}
-	Suppose we assign each node in the network a random variable $\rho$ as the Intrinsic Resistance of a particular node and $\rho \sim U[0,1]$. A new formula for the ENR can be written as:
+	Suppose we assign each node in the network a random variable $\rho$ as the Intrinsic Resistance of a particular node and $\rho \sim U[0,1]$. A better definition would be $\rho: V \rightarrow \left[ 0,1 \right]$. A new formula for the ENR can be written as:
 	\begin{equation}
 	\begin{aligned}
 		&R_{ij} = R_{ji} = (\rho_i e_i - \rho_j e_j)^T L^{\dag} (\rho_i e_i - \rho_j e_j), \\
@@ -47,7 +66,7 @@
 		&= \rho_i^{2} L_{ii}^{\dag} - 2\rho_i \rho_j L_{ij}^{\dag} + \rho_j^{2} L_{jj}^{\dag}
 	\end{aligned}
 	\end{equation}
-	Note that the equation (2) is merely a special case of (3) in which $\rho_i = \rho_j = 1$ . The reason behind introduction of Internal Resistances is to accurately simulate real-world relationships in which the quantity or quality of agent-to-agent connections per se is of little to no importance. As an example, suppose we have a network of interconnected computers scattered all around the globe. It is foolish to consider that the distances between these computers contribute anything to their immunity against malicious attacks. The decisive factor over the security of this network is the tolerance of each computer towards various forms of adversarial attacks. Another application for this method can be found in criminology and riot-control where to apprehend the leaders of a criminal organization one needs to first identify, apprehend, and interrogate fragile members of the organization. We believe our model would potentially complement the existing epidemiological models such as the SIR model, since every susceptible individual in the simulated world can be considered as nodes with unique resistances to infection. Further explanation and examples can be given whence we have completed our discussion on attacker systems. Similar to the previous section, we derive a new equation for the total effective resistance of the network
+	Note that the equation (1) is merely a special case of (2) in which $\rho_i = \rho_j = 1$ . The reason behind introduction of Internal Resistances is to accurately simulate real-world relationships in which the quantity or quality of agent-to-agent connections per se is of little to no importance. As an example, suppose we have a network of interconnected computers scattered all around the globe. It is foolish to consider that the distances between these computers contribute anything to their immunity against malicious attacks. The decisive factor over the security of this network is the tolerance of each computer towards various forms of adversarial attacks. Another application for this method can be found in criminology and riot-control where to apprehend the leaders of a criminal organization one needs to first identify, apprehend, and interrogate fragile members of the organization. We believe our model would potentially complement the existing epidemiological models such as the SIR model, since every susceptible individual in the simulated world can be considered as nodes with unique resistances to infection. Further explanation and examples can be given whence we have completed our discussion on attacker systems. Similar to the previous section, we derive a new equation for the total effective resistance of the network
 	\begin{equation}
 		\begin{aligned}
 			&R_{tot}^{\star}=\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n} \left(\rho_i^{2} L_{ii}^{\dag} - 2\rho_i \rho_j L_{ij}^{\dag} + \rho_j^{2} L_{jj}^{\dag} \right) \\
@@ -65,10 +84,42 @@
 	\begin{equation}
 		\frac{dR_i}{d \rho_i} = 2(n-1)\rho_i L_{ii}^{\dag} - 2\sum_{j\in V / \{i\}} \rho_j L_{ij}^{\dag} > 0
 	\end{equation}
-	Here we face a dilemma, it is well-known that the diagonal entries of Laplacian matrix ($L_{ii}^{\dag}$) are always positive, thus the denominator will cause no trouble regarding its sign. However as shown in fig x, for some graphs, the off-diagonal entries ($L_{ij}^{\dag}$) are all negative and for some there exists at least one off-diagonal entry that is positive. Hence no concrete deduction can be made whether (6) always holds. By altering the above relation, we deduced the following criterion that $\rho_i$ must abide by:
+	Here we face a dilemma, it is well-known that the diagonal entries of Laplacian matrix ($L_{ii}^{\dag}$) are always positive, thus the denominator will cause no trouble regarding its sign. However, as shown in Fig 1, for some graphs, the off-diagonal entries ($L_{ij}^{\dag}$) are all negative and for some there exists at least one off-diagonal positive entry. Hence no concrete deduction can be made whether (6) always holds. By altering the above relation, we deduced the following criterion that $\rho_i$ must abide by:
 	\begin{equation}
-		\frac{2\sum_{j\in V / \{i\}} \rho_j L_{ij}^{\dag}} {2(n-1)\rho_i L_{ii}^{\dag}} < 1 \Longleftrightarrow \rho_i > \frac{2\sum_{j\in V / \{i\}} \rho_j L_{ij}^{\dag}} {2(n-1) L_{ii}^{\dag}}
+		\frac{\sum_{j\in V / \{i\}} \rho_j L_{ij}^{\dag}} {(n-1)\rho_i L_{ii}^{\dag}} < 1 \Longleftrightarrow \rho_i > \frac{\sum_{j\in V / \{i\}} \rho_j L_{ij}^{\dag}} {(n-1) L_{ii}^{\dag}}
 	\end{equation}
+	\linebreak
+	\begin{figure}[t!]
+		\centering
+		\begin{subfigure}[t]{0.495\textwidth}
+			\centering
+			\includegraphics[width=1\textwidth]{G1}
+			\caption{Graph with all negative off-diagonal elements on its $L^{\dag}$}
+			\label{fig:3-a}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.495\textwidth}
+			\centering
+			\includegraphics[width=1\textwidth]{G2}
+			\caption{Graph with some positive off-diagonal elements on its $L^{\dag}$}
+			\label{fig:3-b}
+		\end{subfigure}
+		\caption{Two arbitrary graphs}
+		\label{fig:3}
+	\end{figure}
+	
+	\hspace{2pt}
+	
+	\[
+	L^{\dag}(G_1)=
+	\begin{bmatrix}
+		0.160 & -0.040 & -0.040 & -0.040 & -0.040 \cr
+		-0.040 &  0.236 & -0.002 & -0.050 & -0.145 \cr
+		-0.040 & -0.002 &  0.379 & -0.145 & -0.192 \cr
+		-0.040 & -0.050 & -0.145 &  0.236 & -0.002 \cr
+		-0.040 & -0.145 & -0.192 & -0.002 &  0.379
+	\end{bmatrix}
+	\]
 	\subsection{Defense scheme based on Internal Resistances}
 	Here we build a defense scheme against adversarial attacks based on these assumptions:
 	

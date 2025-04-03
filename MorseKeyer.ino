@@ -1,13 +1,14 @@
 #include <CapacitiveSensor.h>
 /*
- * Coin Touch Sensor
+ * Capacitive Touch Sensor
  * Uses a coin as a capacitive touch sensor
  * Send pins: 4,8
  * Receive pins: 2,7
- * Adjust the threshold value for your specific setup
- * 
+ * This code involves 2 conductors as separate touch sensors
+ * I used two coins as capacitive touch sensors (one for Dashes, one for Dots)
+ *  We aim to simulate a Morse Code Keyer
  * WARNING!!!
- * samples, DashThreshold, DotTreshold and sensor speed must be fine-tooned by hand!
+ * samples, DashThreshold, DotTreshold, and sensor speed must be fine-tuned by hand!
  */
 
 CapacitiveSensor dash = CapacitiveSensor(4,2); // 1M resistor between pins 4 & 2, pin 2 is sensor pin
@@ -37,11 +38,11 @@ void loop() {
   long DotSense = dot.capacitiveSensor(samples);
   
   // Adjust this threshold value based on your serial monitor readings
-  // below these values, the capacitive sensor will read LOW
+  // Below these values, the capacitive sensor will read LOW
   const int DashThreshold = 120;
   const int DotThreshold = 180;
 
-  //SensorMonitor(DashSense,DotSense); // Call for calibrating the thresholds
+  SensorMonitor(DashSense,DotSense); // Call for calibrating the thresholds, otherwise comment it out
   
   if (DashSense > DashThreshold && timer - lastDashTime >= 150){
     digitalWrite(LED_BUILTIN, HIGH);
